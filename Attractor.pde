@@ -38,6 +38,7 @@ class Attractor {
   void display () {
     pushMatrix();
     
+    strokeWeight(1);
     stroke (0);
     fill (127);
     

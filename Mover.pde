@@ -68,7 +68,7 @@ class Mover {
 
     acceleration.mult (0);
     
-    angle += angleAcceleration;
+    angle += map (velocity.mag(), 0, 10, 0, 1) * ( velocity.x < 0 ? -1 : 1 );
   }
   
   void display () {
@@ -80,6 +80,7 @@ class Mover {
       rotate (angle);
     }
     
+    strokeWeight(1);
     stroke (0);
     fill (127, 127, 127, 127);
     
@@ -122,5 +123,17 @@ class Mover {
     PVector f = PVector.div (force, mass);
    
     this.acceleration.add(f);
+  }
+  
+  PVector attractionForce(Mover m) {
+    PVector force = PVector.sub(location, m.location);
+    float distance = force.mag();
+    distance = constrain (distance, 5.0, 25.0);
+    
+    force.normalize();
+    float strength = (.1 * mass * m.mass) / (distance * distance);
+    force.mult(strength);
+    
+    return force;
   }
 }
